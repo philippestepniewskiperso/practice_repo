@@ -1,0 +1,26 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "practicerepo"
+version = "0.1.0"
+description = "Toy FastAPI example for teaching Python software engineering"
+requires-python = ">=3.12"
+dependencies = ["fastapi[standard]"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/practicerepo"]
+
+[dependency-groups]
+dev = ["ruff", "pytest", "httpx", "pre-commit"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
