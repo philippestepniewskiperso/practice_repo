@@ -31,7 +31,7 @@ jobs:
     needs: test_and_code_quality_check
     steps:
     - name: Check out repository code
-      uses: actions/checkout@v5-
+      uses: actions/checkout@v5
     - name: Build and push
       uses: docker/build-push-action@v7
       with:
