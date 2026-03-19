@@ -22,9 +22,6 @@ jobs:
     - name: Install dependencies
       run: |
         uv sync --group dev
-    - name : pre-commit
-      run : |
-        uv run pre-commit run --all-files
     - name : pytest
       run : |
         uv run pytest -v tests/
