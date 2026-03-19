@@ -3,7 +3,7 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
-  Explore-GitHub-Actions:
+  test_and_code_quality_check:
     runs-on: ubuntu-latest
     steps:
 
@@ -25,3 +25,16 @@ jobs:
     - name : pytest
       run : |
         uv run pytest -v tests/
+
+  build_and_push_docker:
+    runs-on: ubuntu-latest
+    needs: test_and_code_quality_check
+    steps:
+    - name: Check out repository code
+      uses: actions/checkout@v5-
+    - name: Build and push
+      uses: docker/build-push-action@v7
+      with:
+        context: "."
+        push: true
+        tags: mame/demo_app:latest
