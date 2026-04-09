@@ -29,9 +29,17 @@ jobs:
   build_and_push_docker:
     runs-on: ubuntu-latest
     needs: test_and_code_quality_check
+    permissions:
+      packages: write
     steps:
     - name: Check out repository code
       uses: actions/checkout@v5
+    - name: Log in to GHCR
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v3
     - name: Set up Docker Buildx
@@ -41,5 +49,4 @@ jobs:
       with:
         context: "."
         push: true
-        tags: mame/demo_app:latest
-      
+        tags: ghcr.io/image-mame:latest
