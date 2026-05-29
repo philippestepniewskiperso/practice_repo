@@ -16,14 +16,10 @@ jobs:
       - uses: actions/checkout@v6
         with:
           persist-credentials: false
-      - uses: anomalyco/opencode/github@latest
+      - name: check opencode version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           AWS_BEARER_TOKEN_BEDROCK: ${{ secrets.AWS_BEARER_TOKEN_BEDROCK }}
           AWS_DEFAULT_REGION: eu-west-3
-        with:
-          model: "amazon-bedrock/global.anthropic.claude-sonnet-4-5-20250929-v1:0"
-          use_github_token: true
-      - name: check opencode version
         run: |
           opencode run --agent monagent "draw a cat"
