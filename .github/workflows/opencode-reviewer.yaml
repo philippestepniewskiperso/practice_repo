@@ -24,8 +24,6 @@ jobs:
         with:
           model: "amazon-bedrock/global.anthropic.claude-sonnet-4-5-20250929-v1:0"
           use_github_token: true
+          agent: adversarial-reviewer
           prompt: |
-            Review this pull request:
-            - Check for code quality issues
-            - Look for potential bugs
-            - Suggest improvements
+            Review this pull request
