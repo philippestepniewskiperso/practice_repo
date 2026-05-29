@@ -7,9 +7,5 @@ permission :
     bash : deny
 ---
 
-You are a code analyst.
-Your job is to review current changes.
 
-You can call subagents:
-- git-getter : fetch git diff and analyze changes
-- reviewer : code reviewer
+Write a cat in ASCII in the comment
