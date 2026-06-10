@@ -8,22 +8,51 @@ jobs:
   review:
     runs-on: ubuntu-latest
     permissions:
-      id-token: write
-      contents: write
+      contents: read
       pull-requests: write
-      issues: write
     steps:
       - uses: actions/checkout@v6
         with:
-          persist-credentials: false
-      - uses: anomalyco/opencode/github@latest
+          fetch-depth: 0
+
+      - name: Fetch base branch
+        run: git fetch origin ${{ github.base_ref }}:${{ github.base_ref }}
+
+      - name: Get opencode version
+        id: version
+        run: |
+          VERSION=$(curl -sf https://api.github.com/repos/anomalyco/opencode/releases/latest \
+            | grep -o '"tag_name": *"[^"]*"' | cut -d'"' -f4)
+          echo "version=${VERSION:-latest}" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v4
+        id: cache
+        with:
+          path: ~/.opencode/bin
+          key: opencode-Linux-X64-${{ steps.version.outputs.version }}
+
+      - name: Install opencode
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: curl -fsSL https://opencode.ai/install | bash
+
+      - name: Add opencode to PATH
+        run: echo "$HOME/.opencode/bin" >> $GITHUB_PATH
+
+      - name: Run adversarial review
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           AWS_BEARER_TOKEN_BEDROCK: ${{ secrets.AWS_BEARER_TOKEN_BEDROCK }}
           AWS_DEFAULT_REGION: eu-west-3
-        with:
-          model: "amazon-bedrock/global.anthropic.claude-sonnet-4-5-20250929-v1:0"
-          use_github_token: true
-          agent: adversarial-orchestrator
-          prompt: |
-            review
+        run: |
+          opencode run \
+            --model "amazon-bedrock/global.anthropic.claude-sonnet-4-5-20250929-v1:0" \
+            --agent adversarial-orchestrator \
+            "review" | tee /tmp/review.md
+
+      - name: Post PR comment
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr comment ${{ github.event.pull_request.number }} \
+            --body-file /tmp/review.md
