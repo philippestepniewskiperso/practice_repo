@@ -1,7 +1,6 @@
 ---
 description: Reviewer adversarial : prend la description du pr-reader et la critique sans concession. Invoqué par adversarial-orchestrator.
 mode: subagent
-model: github-copilot/claude-sonnet-4.6
 temperature: 0.7
 permission:
   read: deny

@@ -1,6 +1,7 @@
 import abc
-from typing import List
 from dataclasses import dataclass
+from typing import List
+
 
 @dataclass
 class Event:
@@ -12,6 +13,7 @@ class Listener(abc.ABC):
     @abc.abstractmethod
     def on_message(self, message: Event):
         pass
+
 
 class MessageBus:
     def __init__(self):

@@ -4,8 +4,12 @@ from booking.ticketing_service import TicketingService
 
 
 class BookingOrchestrator:
-    def __init__(self, inventory_service: InventoryService, ticketing_service: TicketingService,
-                 notification_service: NotificationService) -> None:
+    def __init__(
+        self,
+        inventory_service: InventoryService,
+        ticketing_service: TicketingService,
+        notification_service: NotificationService,
+    ) -> None:
         self.inventory_service = inventory_service
         self.ticketing_service = ticketing_service
         self.notification_service = notification_service

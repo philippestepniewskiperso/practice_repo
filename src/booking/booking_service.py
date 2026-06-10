@@ -1,8 +1,8 @@
-from message_bus.message_bus import MessageBus, Listener, Event
+from message_bus.message_bus import Event, Listener, MessageBus
 
 
 class BookingService(Listener):
-    def __init__(self, message_bus:MessageBus) -> None:
+    def __init__(self, message_bus: MessageBus) -> None:
         self.message_bus = message_bus
         self.message_bus.subscribe(self)
 
@@ -12,7 +12,6 @@ class BookingService(Listener):
     def request_booking(self, number_of_seats: int) -> None:
         # collect validate
         print("BookingRequested")
-        message : Event = Event(name="BookingRequested", value=number_of_seats)
+        message: Event = Event(name="BookingRequested", value=number_of_seats)
         self.message_bus.publish(message)
         self.message_bus.publish(message)
-

@@ -1,7 +1,6 @@
 ---
 description: Récupère le diff d'une PR via git et le décrit factuellement et neutralement. Ne donne aucun avis. Invoqué par adversarial-orchestrator.
 mode: subagent
-model: github-copilot/gpt-5-mini
 temperature: 0.1
 permission:
   bash: allow

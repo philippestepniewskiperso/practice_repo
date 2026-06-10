@@ -1,7 +1,6 @@
 ---
 description: Orchestrateur de revue adversariale. Délègue au pr-reader puis à l'adversarial-reviewer de façon séquentielle. Ne lit ni ne modifie jamais rien.
 mode: primary
-model: github-copilot/claude-sonnet-4.6
 temperature: 0.1
 permission:
   read: deny

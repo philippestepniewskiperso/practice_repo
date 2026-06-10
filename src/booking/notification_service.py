@@ -1,9 +1,8 @@
-from message_bus.message_bus import MessageBus, Listener
+from message_bus.message_bus import Listener, MessageBus
 
 
 class NotificationService(Listener):
-
-    def __init__(self,message_bus:MessageBus) -> None:
+    def __init__(self, message_bus: MessageBus) -> None:
         self.message_bus = message_bus
         self.message_bus.subscribe(self)
 
